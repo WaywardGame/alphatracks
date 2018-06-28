@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "amd",
+        "declaration": false,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "inlineSourceMap": true,
+        "baseUrl": "./mod-reference/definitions",
+        "types": [],
+        "experimentalDecorators": true
+    }
+}

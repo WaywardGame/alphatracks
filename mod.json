@@ -1,0 +1,16 @@
+{
+	"name": "Alpha Tracks",
+	"description": "Adds two tracks to the game. One used earlier in production (during the early alphas) entitled \"pixplz\" by Oddmund Strømme, and another previously unreleased track entitled \"The Highlands\" by Will Phillips.",
+	"version": "1.0.0",
+	"author": "Vaughn Royko",
+	"multiplayerCompatible": true,
+	"compatibleMinorVersions": [
+		6
+	],
+	"languages": [
+		"lang/english"
+	],
+	"unloadable": true,
+	"file": "AlphaTracks.js",
+	"publishedFileId": "1345211328"
+}

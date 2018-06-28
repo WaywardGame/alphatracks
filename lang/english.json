@@ -1,0 +1,10 @@
+{
+	"extends": "English",
+	"dictionaries": {
+		"alphaTracks": {
+			"OptionsOnlyAlphaTracks": "Only Alpha Tracks",
+			"OptionsPlayTrackPixPlz": "Play \"pixplz\"",
+			"OptionsPlayTrackTheHighlands": "Play \"The Highlands\""
+		}
+	}
+}
