@@ -1,11 +1,13 @@
 import { Music } from "Enums";
+import { Dictionary } from "language/ILanguage";
 import Translation from "language/Translation";
 import Mod from "mod/Mod";
+import Register from "mod/ModRegistry";
 import Button, { ButtonEvent } from "newui/component/Button";
 import { CheckButton, CheckButtonEvent } from "newui/component/CheckButton";
 import Component from "newui/component/Component";
 import { UiApi } from "newui/INewUi";
-import { Bound } from "utilities/Objects";
+import Objects from "utilities/Objects";
 
 enum AlphaTracksTranslation {
 	OptionsOnlyAlphaTracks,
@@ -19,19 +21,25 @@ interface ISaveDataGlobal {
 
 export default class AlphaTracks extends Mod {
 
-	private readonly tracks: { [key: string]: number } = {};
-	private dictionary: number;
+	@Register.dictionary("AlphaTracks", AlphaTracksTranslation)
+	public readonly dictionary: Dictionary;
+
+	@Register.musicTrack("PixPlz")
+	public readonly musicTrackPixPlz: Music;
+	@Register.musicTrack("TheHighlands")
+	public readonly musicTrackTheHighlands: Music;
+
 	private saveDataGlobal: ISaveDataGlobal;
 
+	private get tracks() {
+		return {
+			PixPlz: this.musicTrackPixPlz,
+			TheHighlands: this.musicTrackTheHighlands
+		};
+	}
+
 	public onInitialize(saveDataGlobal: ISaveDataGlobal): any {
-		this.dictionary = this.addDictionary("AlphaTracks", AlphaTracksTranslation);
 		this.saveDataGlobal = saveDataGlobal || {};
-
-		for (const track of ["PixPlz", "TheHighlands"]) {
-			this.tracks[track] = this.addMusic(track);
-		}
-
-		this.registerOptionsSection(this.constructOptionsSection);
 
 		this.refreshMusicHandler(true);
 	}
@@ -64,7 +72,7 @@ export default class AlphaTracks extends Mod {
 		if (this.saveDataGlobal.onlyAlphaTracks) {
 			audio.getMusicHandler()
 				// filter the music tracks to only play the tracks provided by this mod
-				.filter(name => name in this.tracks)
+				.filter(name => name.slice("ModAlphaTracks".length) in this.tracks)
 				// play a random track
 				.moveToRandom();
 
@@ -80,7 +88,7 @@ export default class AlphaTracks extends Mod {
 	 * Creates an options section for this mod, containing a checkbutton for whether `onlyAlphaTracks` 
 	 * should be played, and a button to switch to each track.
 	 */
-	@Bound
+	@Register.optionsSection
 	public constructOptionsSection(api: UiApi, section: Component) {
 		// add a checkbutton for whether the music handler should play only alpha tracks
 		new CheckButton(api)
@@ -93,7 +101,7 @@ export default class AlphaTracks extends Mod {
 			.appendTo(section);
 
 		// add a button for playing each track
-		for (const track in this.tracks) {
+		for (const track of Objects.keys(this.tracks)) {
 			new Button(api)
 				.setText(() => new Translation(this.dictionary, `OptionsPlayTrack${track}`))
 				.on(ButtonEvent.Activate, () => {

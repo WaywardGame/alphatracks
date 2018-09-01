@@ -3,7 +3,7 @@
 	"description": "Adds two tracks to the game. One used earlier in production (during the early alphas) entitled \"pixplz\" by Oddmund Strømme, and another previously unreleased track entitled \"The Highlands\" by Will Phillips.",
 	"version": "1.0.0",
 	"author": "Vaughn Royko",
-	"multiplayerCompatible": true,
+	"multiplayerClientside": true,
 	"compatibleMinorVersions": [
 		6
 	],

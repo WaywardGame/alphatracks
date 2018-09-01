@@ -1,7 +1,7 @@
 {
 	"extends": "English",
 	"dictionaries": {
-		"alphaTracks": {
+		"modAlphaTracksAlphaTracks": {
 			"OptionsOnlyAlphaTracks": "Only Alpha Tracks",
 			"OptionsPlayTrackPixPlz": "Play \"pixplz\"",
 			"OptionsPlayTrackTheHighlands": "Play \"The Highlands\""
