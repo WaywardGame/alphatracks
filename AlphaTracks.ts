@@ -1,5 +1,5 @@
 import { Music } from "Enums";
-import { Dictionary } from "language/ILanguage";
+import { Dictionary } from "language/Dictionaries";
 import Translation from "language/Translation";
 import Mod from "mod/Mod";
 import Register from "mod/ModRegistry";
@@ -29,7 +29,8 @@ export default class AlphaTracks extends Mod {
 	@Register.musicTrack("TheHighlands")
 	public readonly musicTrackTheHighlands: Music;
 
-	private saveDataGlobal: ISaveDataGlobal;
+	@Mod.globalData<AlphaTracks>("Alpha Tracks")
+	public globalData: ISaveDataGlobal;
 
 	private get tracks() {
 		return {
@@ -38,14 +39,8 @@ export default class AlphaTracks extends Mod {
 		};
 	}
 
-	public onInitialize(saveDataGlobal: ISaveDataGlobal): any {
-		this.saveDataGlobal = saveDataGlobal || {};
-
+	public onInitialize(): any {
 		this.refreshMusicHandler(true);
-	}
-
-	public onUninitialize() {
-		return this.saveDataGlobal;
 	}
 
 	public onUninitialized() {
@@ -69,7 +64,7 @@ export default class AlphaTracks extends Mod {
 	 * If else, the music handler is reset.
 	 */
 	public refreshMusicHandler(isInitialization = false) {
-		if (this.saveDataGlobal.onlyAlphaTracks) {
+		if (this.globalData.onlyAlphaTracks) {
 			audio.getMusicHandler()
 				// filter the music tracks to only play the tracks provided by this mod
 				.filter(name => name.slice("ModAlphaTracks".length) in this.tracks)
@@ -93,9 +88,9 @@ export default class AlphaTracks extends Mod {
 		// add a checkbutton for whether the music handler should play only alpha tracks
 		new CheckButton(api)
 			.setText(() => new Translation(this.dictionary, AlphaTracksTranslation.OptionsOnlyAlphaTracks))
-			.setRefreshMethod(() => !!this.saveDataGlobal.onlyAlphaTracks)
+			.setRefreshMethod(() => !!this.globalData.onlyAlphaTracks)
 			.on(CheckButtonEvent.Change, (_, checked) => {
-				this.saveDataGlobal.onlyAlphaTracks = checked;
+				this.globalData.onlyAlphaTracks = checked;
 				this.refreshMusicHandler();
 			})
 			.appendTo(section);

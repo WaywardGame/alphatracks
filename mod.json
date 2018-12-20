@@ -5,12 +5,16 @@
 	"author": "Vaughn Royko",
 	"multiplayerClientside": true,
 	"compatibleMinorVersions": [
-		6
+		7
 	],
 	"languages": [
 		"lang/english"
 	],
 	"unloadable": true,
 	"file": "AlphaTracks.js",
+	"tags": [
+		"Audio",
+		"User Interface"
+	],
 	"publishedFileId": "1345211328"
 }
