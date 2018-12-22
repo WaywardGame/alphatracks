@@ -11,7 +11,7 @@
 		"lang/english"
 	],
 	"unloadable": true,
-	"file": "AlphaTracks.js",
+	"file": "out/AlphaTracks.js",
 	"tags": [
 		"Audio",
 		"User Interface"
