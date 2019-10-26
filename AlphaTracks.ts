@@ -1,13 +1,11 @@
-import { Music } from "Enums";
+import { Music } from "audio/IAudio";
 import { Dictionary } from "language/Dictionaries";
 import Translation from "language/Translation";
 import Mod from "mod/Mod";
 import Register from "mod/ModRegistry";
-import Button, { ButtonEvent } from "newui/component/Button";
-import { CheckButton, CheckButtonEvent } from "newui/component/CheckButton";
+import Button from "newui/component/Button";
+import { CheckButton } from "newui/component/CheckButton";
 import Component from "newui/component/Component";
-import { UiApi } from "newui/INewUi";
-import Objects from "utilities/Objects";
 
 enum AlphaTracksTranslation {
 	OptionsOnlyAlphaTracks,
@@ -84,22 +82,22 @@ export default class AlphaTracks extends Mod {
 	 * should be played, and a button to switch to each track.
 	 */
 	@Register.optionsSection
-	public constructOptionsSection(api: UiApi, section: Component) {
+	public constructOptionsSection(section: Component) {
 		// add a checkbutton for whether the music handler should play only alpha tracks
-		new CheckButton(api)
+		new CheckButton()
 			.setText(() => new Translation(this.dictionary, AlphaTracksTranslation.OptionsOnlyAlphaTracks))
 			.setRefreshMethod(() => !!this.globalData.onlyAlphaTracks)
-			.on(CheckButtonEvent.Change, (_, checked) => {
+			.event.subscribe("toggle", (_, checked) => {
 				this.globalData.onlyAlphaTracks = checked;
 				this.refreshMusicHandler();
 			})
 			.appendTo(section);
 
 		// add a button for playing each track
-		for (const track of Objects.keys(this.tracks)) {
-			new Button(api)
+		for (const track of Stream.keys(this.tracks)) {
+			new Button()
 				.setText(() => new Translation(this.dictionary, `OptionsPlayTrack${track}`))
-				.on(ButtonEvent.Activate, () => {
+				.event.subscribe("activate", () => {
 					audio.getMusicHandler().moveToEnumEntry(this.tracks[track]);
 				})
 				.appendTo(section);

@@ -1,11 +1,13 @@
 # Alpha Tracks
 Adds two tracks to the game. One used earlier in production (during the early alphas) entitled "pixplz" by Oddmund Strømme, and another previously unreleased track entitled "The Highlands" by Will Phillips.
 
-## Cloning:
+## Cloning/Setup:
 ```
 git clone https://github.com/WaywardGame/alphatracks.git
 cd alphatracks
-git submodule update --init
+On Windows: path/to/wayward/install/wayward.cmd +mod update .
+On macOS: path/to/wayward/install/Wayward.app/Contents/MacOS/Electron +mod update .
+On Linux: path/to/wayward/install/wayward +mod update .
 ```
 
 ## Building:
