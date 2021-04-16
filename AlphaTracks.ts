@@ -3,9 +3,9 @@ import { Dictionary } from "language/Dictionaries";
 import Translation from "language/Translation";
 import Mod from "mod/Mod";
 import Register from "mod/ModRegistry";
-import Button from "newui/component/Button";
-import { CheckButton } from "newui/component/CheckButton";
-import Component from "newui/component/Component";
+import Button from "ui/component/Button";
+import { CheckButton } from "ui/component/CheckButton";
+import Component from "ui/component/Component";
 
 enum AlphaTracksTranslation {
 	OptionsOnlyAlphaTracks,
