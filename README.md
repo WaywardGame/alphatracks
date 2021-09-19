@@ -14,7 +14,7 @@ On Linux: path/to/wayward/install/wayward +mod update .
 Open the folder in Visual Studio Code and build with Ctrl+Shift+B.
 
 ## Steam Workshop
-[http://steamcommunity.com/sharedfiles/filedetails/?id=1345211328](http://steamcommunity.com/sharedfiles/filedetails/?id=1345211328)
+[https://steamcommunity.com/sharedfiles/filedetails/?id=1345211328](https://steamcommunity.com/sharedfiles/filedetails/?id=1345211328)
 
 ## Screenshots
 ![Alpha Tracks](https://raw.githubusercontent.com/WaywardGame/alphatracks/master/mod.png "Alpha Tracks")
