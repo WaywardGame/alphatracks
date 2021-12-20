@@ -1,5 +1,6 @@
+import Stream from "@wayward/goodstream/Stream";
 import { Music } from "audio/IAudio";
-import { Dictionary } from "language/Dictionaries";
+import Dictionary from "language/Dictionary";
 import Translation from "language/Translation";
 import Mod from "mod/Mod";
 import Register from "mod/ModRegistry";
@@ -37,11 +38,11 @@ export default class AlphaTracks extends Mod {
 		};
 	}
 
-	public onInitialize(): any {
+	public override onInitialize(): any {
 		this.refreshMusicHandler(true);
 	}
 
-	public onUninitialized() {
+	public override onUninitialized() {
 		this.resetMusicHandler();
 	}
 
@@ -49,8 +50,8 @@ export default class AlphaTracks extends Mod {
 	 * Undo the music handler changes done by this mod
 	 */
 	public resetMusicHandler() {
-		audio.resetMusicHandler();
-		audio.playMusic();
+		audio?.resetMusicHandler();
+		audio?.playMusic();
 	}
 
 	/**
@@ -63,14 +64,14 @@ export default class AlphaTracks extends Mod {
 	 */
 	public refreshMusicHandler(isInitialization = false) {
 		if (this.globalData.onlyAlphaTracks) {
-			audio.getMusicHandler()
+			audio?.getMusicHandler()
 				// filter the music tracks to only play the tracks provided by this mod
 				.filter(name => name.slice("ModAlphaTracks".length) in this.tracks)
 				// play a random track
 				.moveToRandom();
 
 		} else if (isInitialization) {
-			audio.getMusicHandler().refresh();
+			audio?.getMusicHandler().refresh();
 
 		} else {
 			this.resetMusicHandler();
@@ -85,7 +86,7 @@ export default class AlphaTracks extends Mod {
 	public constructOptionsSection(section: Component) {
 		// add a checkbutton for whether the music handler should play only alpha tracks
 		new CheckButton()
-			.setText(() => new Translation(this.dictionary, AlphaTracksTranslation.OptionsOnlyAlphaTracks))
+			.setText(() => Translation.get(this.dictionary, AlphaTracksTranslation.OptionsOnlyAlphaTracks))
 			.setRefreshMethod(() => !!this.globalData.onlyAlphaTracks)
 			.event.subscribe("toggle", (_, checked) => {
 				this.globalData.onlyAlphaTracks = checked;
@@ -96,9 +97,9 @@ export default class AlphaTracks extends Mod {
 		// add a button for playing each track
 		for (const track of Stream.keys(this.tracks)) {
 			new Button()
-				.setText(() => new Translation(this.dictionary, `OptionsPlayTrack${track}`))
+				.setText(() => Translation.get(this.dictionary, `OptionsPlayTrack${track}`))
 				.event.subscribe("activate", () => {
-					audio.getMusicHandler().moveToEnumEntry(this.tracks[track]);
+					audio?.getMusicHandler().moveToEnumEntry(this.tracks[track]);
 				})
 				.appendTo(section);
 		}
