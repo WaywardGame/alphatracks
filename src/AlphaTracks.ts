@@ -10,14 +10,14 @@
  */
 
 import Stream from "@wayward/goodstream/Stream";
-import { Music } from "audio/IAudio";
-import Dictionary from "language/Dictionary";
-import Translation from "language/Translation";
-import Mod from "mod/Mod";
-import Register from "mod/ModRegistry";
-import Button from "ui/component/Button";
-import { CheckButton } from "ui/component/CheckButton";
-import Component from "ui/component/Component";
+import { Music } from "@wayward/game/audio/IAudio";
+import Dictionary from "@wayward/game/language/Dictionary";
+import Translation from "@wayward/game/language/Translation";
+import Mod from "@wayward/game/mod/Mod";
+import Register from "@wayward/game/mod/ModRegistry";
+import Button from "@wayward/game/ui/component/Button";
+import { CheckButton } from "@wayward/game/ui/component/CheckButton";
+import Component from "@wayward/game/ui/component/Component";
 
 enum AlphaTracksTranslation {
 	OptionsOnlyAlphaTracks,
@@ -42,25 +42,25 @@ export default class AlphaTracks extends Mod {
 	@Mod.globalData<AlphaTracks>("Alpha Tracks")
 	public globalData: ISaveDataGlobal;
 
-	private get tracks() {
+	private get tracks(): { PixPlz: Music; TheHighlands: Music; } {
 		return {
 			PixPlz: this.musicTrackPixPlz,
 			TheHighlands: this.musicTrackTheHighlands
 		};
 	}
 
-	public override onInitialize(): any {
+	public override onInitialize(): void {
 		this.refreshMusicHandler(true);
 	}
 
-	public override onUninitialized() {
+	public override onUninitialized(): void {
 		this.resetMusicHandler();
 	}
 
 	/**
 	 * Undo the music handler changes done by this mod
 	 */
-	public resetMusicHandler() {
+	public resetMusicHandler(): void {
 		audio?.resetMusicHandler();
 		audio?.playMusic();
 	}
@@ -73,7 +73,7 @@ export default class AlphaTracks extends Mod {
 	 * If `onlyAlphaTracks` is enabled, a random track from this mod is played.
 	 * If else, the music handler is reset.
 	 */
-	public refreshMusicHandler(isInitialization = false) {
+	public refreshMusicHandler(isInitialization = false): void {
 		if (this.globalData.onlyAlphaTracks) {
 			audio?.getMusicHandler()
 				// filter the music tracks to only play the tracks provided by this mod
@@ -94,7 +94,7 @@ export default class AlphaTracks extends Mod {
 	 * should be played, and a button to switch to each track.
 	 */
 	@Register.optionsSection
-	public constructOptionsSection(section: Component) {
+	public constructOptionsSection(section: Component): void {
 		// add a checkbutton for whether the music handler should play only alpha tracks
 		new CheckButton()
 			.setText(() => Translation.get(this.dictionary, AlphaTracksTranslation.OptionsOnlyAlphaTracks))
