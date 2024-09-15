@@ -1,4 +1,3 @@
-import Stream from "@wayward/goodstream/Stream";
 import { Music } from "@wayward/game/audio/IAudio";
 import Dictionary from "@wayward/game/language/Dictionary";
 import Translation from "@wayward/game/language/Translation";
@@ -7,11 +6,17 @@ import Register from "@wayward/game/mod/ModRegistry";
 import Button from "@wayward/game/ui/component/Button";
 import { CheckButton } from "@wayward/game/ui/component/CheckButton";
 import Component from "@wayward/game/ui/component/Component";
+import Objects from "@wayward/utilities/object/Objects";
 
 enum AlphaTracksTranslation {
 	OptionsOnlyAlphaTracks,
 	OptionsPlayTrackPixPlz,
 	OptionsPlayTrackTheHighlands
+}
+
+interface ITracks {
+	PixPlz: Music;
+	TheHighlands: Music;
 }
 
 interface ISaveDataGlobal {
@@ -31,7 +36,7 @@ export default class AlphaTracks extends Mod {
 	@Mod.globalData<AlphaTracks>("Alpha Tracks")
 	public globalData: ISaveDataGlobal;
 
-	private get tracks(): { PixPlz: Music; TheHighlands: Music; } {
+	private get tracks(): ITracks {
 		return {
 			PixPlz: this.musicTrackPixPlz,
 			TheHighlands: this.musicTrackTheHighlands
@@ -95,11 +100,11 @@ export default class AlphaTracks extends Mod {
 			.appendTo(section);
 
 		// add a button for playing each track
-		for (const track of Stream.keys(this.tracks)) {
+		for (const track of Objects.keys(this.tracks)) {
 			new Button()
 				.setText(() => Translation.get(this.dictionary, `OptionsPlayTrack${track}`))
 				.event.subscribe("activate", () => {
-					audio?.getMusicHandler().moveToEnumEntry(this.tracks[track]);
+					audio?.getMusicHandler().moveToEnumEntry(this.tracks[track as keyof ITracks]);
 				})
 				.appendTo(section);
 		}
