@@ -1,17 +1,17 @@
-import { Music } from "@wayward/game/audio/IAudio";
-import Dictionary from "@wayward/game/language/Dictionary";
+import type { Music } from "@wayward/game/audio/IAudio";
+import type Dictionary from "@wayward/game/language/Dictionary";
 import Translation from "@wayward/game/language/Translation";
 import Mod from "@wayward/game/mod/Mod";
 import Register from "@wayward/game/mod/ModRegistry";
 import Button from "@wayward/game/ui/component/Button";
 import { CheckButton } from "@wayward/game/ui/component/CheckButton";
-import Component from "@wayward/game/ui/component/Component";
+import type Component from "@wayward/game/ui/component/Component";
 import Objects from "@wayward/utilities/object/Objects";
 
 enum AlphaTracksTranslation {
 	OptionsOnlyAlphaTracks,
 	OptionsPlayTrackPixPlz,
-	OptionsPlayTrackTheHighlands
+	OptionsPlayTrackTheHighlands,
 }
 
 interface ITracks {
@@ -39,7 +39,7 @@ export default class AlphaTracks extends Mod {
 	private get tracks(): ITracks {
 		return {
 			PixPlz: this.musicTrackPixPlz,
-			TheHighlands: this.musicTrackTheHighlands
+			TheHighlands: this.musicTrackTheHighlands,
 		};
 	}
 
@@ -55,8 +55,8 @@ export default class AlphaTracks extends Mod {
 	 * Undo the music handler changes done by this mod
 	 */
 	public resetMusicHandler(): void {
-		audio?.resetMusicHandler();
-		audio?.playMusic();
+		void audio?.resetMusicHandler();
+		void audio?.playMusic();
 	}
 
 	/**
