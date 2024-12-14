@@ -1,28 +1,22 @@
-/*!
- * Copyright 2011-2023 Unlok
- * https://www.unlok.ca
- *
- * Credits & Thanks:
- * https://www.unlok.ca/credits-thanks/
- *
- * Wayward is a copyrighted and licensed work. Modification and/or distribution of any source files is prohibited. If you wish to modify the game in any way, please refer to the modding guide:
- * https://github.com/WaywardGame/types/wiki
- */
-
-import Stream from "@wayward/goodstream/Stream";
-import { Music } from "audio/IAudio";
-import Dictionary from "language/Dictionary";
-import Translation from "language/Translation";
-import Mod from "mod/Mod";
-import Register from "mod/ModRegistry";
-import Button from "ui/component/Button";
-import { CheckButton } from "ui/component/CheckButton";
-import Component from "ui/component/Component";
+import type { Music } from "@wayward/game/audio/IAudio";
+import type Dictionary from "@wayward/game/language/Dictionary";
+import Translation from "@wayward/game/language/Translation";
+import Mod from "@wayward/game/mod/Mod";
+import Register from "@wayward/game/mod/ModRegistry";
+import Button from "@wayward/game/ui/component/Button";
+import { CheckButton } from "@wayward/game/ui/component/CheckButton";
+import type Component from "@wayward/game/ui/component/Component";
+import Objects from "@wayward/utilities/object/Objects";
 
 enum AlphaTracksTranslation {
 	OptionsOnlyAlphaTracks,
 	OptionsPlayTrackPixPlz,
-	OptionsPlayTrackTheHighlands
+	OptionsPlayTrackTheHighlands,
+}
+
+interface ITracks {
+	PixPlz: Music;
+	TheHighlands: Music;
 }
 
 interface ISaveDataGlobal {
@@ -42,27 +36,27 @@ export default class AlphaTracks extends Mod {
 	@Mod.globalData<AlphaTracks>("Alpha Tracks")
 	public globalData: ISaveDataGlobal;
 
-	private get tracks() {
+	private get tracks(): ITracks {
 		return {
 			PixPlz: this.musicTrackPixPlz,
-			TheHighlands: this.musicTrackTheHighlands
+			TheHighlands: this.musicTrackTheHighlands,
 		};
 	}
 
-	public override onInitialize(): any {
+	public override onInitialize(): void {
 		this.refreshMusicHandler(true);
 	}
 
-	public override onUninitialized() {
+	public override onUninitialized(): void {
 		this.resetMusicHandler();
 	}
 
 	/**
 	 * Undo the music handler changes done by this mod
 	 */
-	public resetMusicHandler() {
-		audio?.resetMusicHandler();
-		audio?.playMusic();
+	public resetMusicHandler(): void {
+		void audio?.resetMusicHandler();
+		void audio?.playMusic();
 	}
 
 	/**
@@ -73,7 +67,7 @@ export default class AlphaTracks extends Mod {
 	 * If `onlyAlphaTracks` is enabled, a random track from this mod is played.
 	 * If else, the music handler is reset.
 	 */
-	public refreshMusicHandler(isInitialization = false) {
+	public refreshMusicHandler(isInitialization = false): void {
 		if (this.globalData.onlyAlphaTracks) {
 			audio?.getMusicHandler()
 				// filter the music tracks to only play the tracks provided by this mod
@@ -94,7 +88,7 @@ export default class AlphaTracks extends Mod {
 	 * should be played, and a button to switch to each track.
 	 */
 	@Register.optionsSection
-	public constructOptionsSection(section: Component) {
+	public constructOptionsSection(section: Component): void {
 		// add a checkbutton for whether the music handler should play only alpha tracks
 		new CheckButton()
 			.setText(() => Translation.get(this.dictionary, AlphaTracksTranslation.OptionsOnlyAlphaTracks))
@@ -106,11 +100,11 @@ export default class AlphaTracks extends Mod {
 			.appendTo(section);
 
 		// add a button for playing each track
-		for (const track of Stream.keys(this.tracks)) {
+		for (const track of Objects.keys(this.tracks)) {
 			new Button()
 				.setText(() => Translation.get(this.dictionary, `OptionsPlayTrack${track}`))
 				.event.subscribe("activate", () => {
-					audio?.getMusicHandler().moveToEnumEntry(this.tracks[track]);
+					audio?.getMusicHandler().moveToEnumEntry(this.tracks[track as keyof ITracks]);
 				})
 				.appendTo(section);
 		}
