@@ -5,7 +5,7 @@
 	"author": "Vaughn Royko",
 	"github": "https://github.com/WaywardGame/alphatracks",
 	"multiplayer": "clientside",
-	"waywardVersion": "2.14.0-beta",
+	"waywardVersion": "2.15.0-beta",
 	"languages": [
 		"lang/english"
 	],
